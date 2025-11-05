@@ -60,10 +60,10 @@ public class Main {
         System.out.println(listPokedex.get(8).toString());
         System.out.println(listPokedex.get(9).toString());
 
-        System.out.println("-ELIMINAMOS TODA LA POKEDEX-");
+        /*System.out.println("-ELIMINAMOS TODA LA POKEDEX-");
         listPokedex = pokedexServices.listarPokedex();
         for (Pokedexes p: listPokedex) {
             pokedexServices.eliminarPokedex(p.getId());
-        }
+        }*/
     }
 }
