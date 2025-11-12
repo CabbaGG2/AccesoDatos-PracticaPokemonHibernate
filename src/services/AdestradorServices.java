@@ -2,9 +2,12 @@ package services;
 
 import config.HibernateConfig;
 import model.Adestrador;
+import model.Pokedexes;
+import model.Pokemon;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +16,11 @@ public class AdestradorServices {
     public void crearAdestrador(String nome, Date nacemento){
         try(Session session = HibernateConfig.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            List<Pokemon> pokemones = new ArrayList<>();
             Adestrador nuevoAdestrador = new Adestrador();
             nuevoAdestrador.setNome(nome);
             nuevoAdestrador.setNacemente(nacemento);
+            nuevoAdestrador.setPokemons(pokemones);
             session.save(nuevoAdestrador);
             transaction.commit();
         } catch (Exception e) {
@@ -32,13 +37,14 @@ public class AdestradorServices {
         }
     }
 
-    public void actualizarAdestrador(Long id, String nome, Date nacemento) {
+    public void actualizarAdestrador(Long id, String nome, Date nacemento, List<Pokemon> pokemones) {
         try(Session session = HibernateConfig.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             Adestrador adestrador = session.get(Adestrador.class, id);
             if (adestrador != null) {
                 adestrador.setNome(nome);
                 adestrador.setNacemente(nacemento);
+                adestrador.setPokemons(pokemones);
                 session.update(adestrador);
             } else {
                 System.out.println("entrenador no encontrando para realizar actualización");

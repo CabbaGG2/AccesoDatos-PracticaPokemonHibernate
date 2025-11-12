@@ -1,7 +1,9 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "adestrador")
@@ -17,7 +19,8 @@ public class Adestrador {
     @Temporal(TemporalType.DATE)
     private Date nacemente;
 
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "adestrador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pokemon> pokemons = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -43,14 +46,21 @@ public class Adestrador {
         this.nacemente = nacemente;
     }
 
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(List<Pokemon> pokemons) {
+        this.pokemons = pokemons;
+    }
+
     @Override
     public String toString() {
         return "Adestrador{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", nacemente=" + nacemente +
+                ", pokemons=" + pokemons +
                 '}';
     }
-
-
 }
