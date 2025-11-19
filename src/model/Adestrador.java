@@ -19,7 +19,8 @@ public class Adestrador {
     @Temporal(TemporalType.DATE)
     private Date nacemente;
 
-    @OneToMany(mappedBy = "adestrador", cascade = CascadeType.ALL, orphanRemoval = true)
+    //
+    @OneToMany(mappedBy = "adestrador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Pokemon> pokemons = new ArrayList<>();
 
     public Long getId() {
