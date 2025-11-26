@@ -1,5 +1,7 @@
 import model.Pokedexes;
+import services.AdestradorServices;
 import services.PokedexServices;
+import services.PokemonServices;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ public class Main {
 
         List<Pokedexes> listPokedex = new ArrayList<>();
         PokedexServices pokedexServices = new PokedexServices();
+        PokemonServices pokemonServices = new PokemonServices();
+        AdestradorServices adestradorServices = new AdestradorServices();
         List<Pokedexes> actualizarPokemon = new ArrayList<>();
 
         System.out.println("-INSERTAMOS 10 POKEMONS-");
