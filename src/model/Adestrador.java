@@ -1,13 +1,14 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "adestrador")
-public class Adestrador {
+public class Adestrador implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +16,7 @@ public class Adestrador {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
-    @Column(name = "nacemente")
+    @Column(name = "nacemento")
     @Temporal(TemporalType.DATE)
     private Date nacemente;
 
@@ -55,13 +56,5 @@ public class Adestrador {
         this.pokemons = pokemons;
     }
 
-    @Override
-    public String toString() {
-        return "Adestrador{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", nacemente=" + nacemente +
-                ", pokemons=" + pokemons +
-                '}';
-    }
+
 }

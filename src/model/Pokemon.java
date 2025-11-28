@@ -1,11 +1,12 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "pokemon")
-public class Pokemon {
+public class Pokemon implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +18,12 @@ public class Pokemon {
     @Temporal(TemporalType.DATE)
     private Date nacemento;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "adestrador") //FK para entrenador
     private Adestrador adestrador;
 
-    @ManyToOne
-    @JoinColumn(name = "pokedex") //FK para pokedex
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pokedexentry") //FK para pokedex
     private Pokedexes pokedex;
 
     public Long getId() {
@@ -65,15 +66,5 @@ public class Pokemon {
         this.pokedex = pokedex;
     }
 
-    @Override
-    public String toString() {
-        return "Pokemon{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", nacemento=" + nacemento +
-                ", adestrador=" + adestrador +
-                ", pokedex=" + pokedex +
-                '}';
-    }
 }
 

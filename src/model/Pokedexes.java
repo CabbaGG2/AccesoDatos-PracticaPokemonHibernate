@@ -1,11 +1,12 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "pokedex")
-public class Pokedexes {
+public class Pokedexes implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
