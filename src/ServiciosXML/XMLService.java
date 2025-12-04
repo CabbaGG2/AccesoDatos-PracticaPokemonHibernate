@@ -4,10 +4,13 @@ import model.Pokedexes;
 import model.Adestrador;
 import model.Pokemon;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.SAXParser;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -130,6 +133,15 @@ public class XMLService {
         }
         return null;
     }
+
+
+
+    public List<Adestrador> parsearXMLAdestrador(String rutaArchivo) throws Exception {
+            JAXBContext context = JAXBContext.newInstance(Adestrador.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            return (List<Adestrador>) unmarshaller.unmarshal(new File(rutaArchivo));
+    }
+
 
     /*public static SAXParser crearXMLTienda(List<InventarioTienda> inventarios) {
         XMLOutputFactory factory = XMLOutputFactory.newInstance();

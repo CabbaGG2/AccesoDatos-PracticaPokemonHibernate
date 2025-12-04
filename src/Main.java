@@ -7,6 +7,7 @@ import services.AdestradorServices;
 import services.PokedexServices;
 import services.PokemonServices;
 
+import java.lang.classfile.constantpool.PoolEntry;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -104,6 +105,99 @@ public class Main {
             a.setNacemente(new Date(a.getNacemente().getYear() - 5, a.getNacemente().getMonth(), a.getNacemente().getDate()));
             adestradorServices.actualizarAdestrador(a);
             System.out.println("Entrenador actualizado");
+        }
+
+        System.out.println("-MODFICAR 4 POKEMONES");
+        List<Pokemon> pokemonsActualizar = new ArrayList<>();
+        pokemonsActualizar.add(pokemonServices.leerPokemon(2L));
+        pokemonsActualizar.add(pokemonServices.leerPokemon(4L));
+        pokemonsActualizar.add(pokemonServices.leerPokemon(6L));
+        pokemonsActualizar.add(pokemonServices.leerPokemon(8L));
+        for (Pokemon p : pokemonsActualizar) {
+            System.out.println("Modificando fecha de nacimiento de: " + p.getNome());
+            p.setNacemento(new Date(p.getNacemento().getYear() - 3, p.getNacemento().getMonth(), p.getNacemento().getDate()));
+            pokemonServices.actualizarPokemon(p);
+            System.out.println("Pokemon actualizado");
+        }
+
+        System.out.println("-LISTAMOS LOS POKEMONS EN LA POKEDEX DENUEVO-");
+        listPokedex = pokedexServices.listarPokedex();
+        for (Pokedexes p : listPokedex) {
+            System.out.println(p.toString());
+        }
+
+        System.out.println("-LISTAMOS LOS ENTRENADORES-");
+        entrenadores = adestradorServices.listarAdestradores();
+        for (Adestrador a : entrenadores) {
+            System.out.println("Entrenador: " + a.getNome() + ", Nacimiento: " + a.getNacemente());
+        }
+
+        System.out.println("-LISTAMOS POKEMONES EN LA TABLA POKEMON DENUEVO-");
+        pokemons = pokemonServices.listarPokemons();
+        for (Pokemon p : pokemons) {
+            System.out.println(p.getNome()+", Nacimiento: " + p.getNacemento() + ", Entrenador: " + p.getAdestrador().getNome() + ", Pokedex: " + p.getPokedex().getNome());
+        }
+
+        System.out.println("-IMPORTAR LAS ENTRADAS SERIALIZADAS DE LA POKEDEX Y MODIFICAR LA POKEDEX CON ESOS DATOS");
+        List<Pokedexes> deserializedPokedex = serializarService.DeserializarPokedexes("serialPokedex");
+        for (Pokedexes p : deserializedPokedex) {
+            System.out.println("Importando datos serializados para: " + p.getNome());
+            Pokedexes pokedexToModify = pokedexServices.leerPokedexPorID(p.getId());
+            pokedexToModify.setNome(p.getNome());
+            pokedexToModify.setPeso(p.getPeso());
+            pokedexToModify.setMisc(p.getMisc());
+            pokedexServices.actualizarPokedex(pokedexToModify);
+            System.out.println("Pokemon actualizado con datos serializados");
+        }
+
+        System.out.println("-IMPORTAR LAS ENTRADAS EN XML DE LOS ENTRENADORES Y MODIFICAR LOS ENTRENADORES CON ESOS DATOS");
+        List<Adestrador> AdestradoresListaXML = null;
+        try {
+            AdestradoresListaXML = xmlService.parsearXMLAdestrador("adestrador.xml");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        for (Adestrador a : AdestradoresListaXML) {
+            System.out.println("Importando datos XML para: " + a.getNome());
+            Adestrador adestradorToModify = adestradorServices.leerAdestrador(a.getId());
+            adestradorToModify.setNome(a.getNome());
+            adestradorToModify.setNacemente(a.getNacemente());
+            adestradorServices.actualizarAdestrador(adestradorToModify);
+            System.out.println("Entrenador " + adestradorToModify.getNome() + " actualizado con datos XML");
+        }
+
+        System.out.println("-LISTAMOS LOS DATOS DE TODAS LAS TABLAS DENUEVO PARA VERIFICAR LOS CAMBIOS-");
+        System.out.println("-LISTAMOS LOS POKEMONS EN LA POKEDEX DENUEVO-");
+        listPokedex = pokedexServices.listarPokedex();
+        for (Pokedexes p : listPokedex) {
+            System.out.println(p.toString());
+        }
+        System.out.println("-LISTAMOS LOS ENTRENADORES DENUEVO-");
+        entrenadores = adestradorServices.listarAdestradores();
+        for (Adestrador a : entrenadores) {
+            System.out.println("Entrenador: " + a.getNome() + ", Nacimiento: " + a.getNacemente());
+        }
+        System.out.println("-LISTAMOS POKEMONES EN LA TABLA POKEMON DENUEVO-");
+        pokemons = pokemonServices.listarPokemons();
+        for (Pokemon p : pokemons) {
+            System.out.println(p.getNome()+", Nacimiento: " + p.getNacemento() + ", Entrenador: " + p.getAdestrador().getNome() + ", Pokedex: " + p.getPokedex().getNome());
+        }
+
+        System.out.println("-ELIMINAMOS LOS DATOS DE TODAS LAS TABLAS-");
+        //Eliminar Pokemons
+        pokemons = pokemonServices.listarPokemons();
+        for (Pokemon p : pokemons) {
+            pokemonServices.eliminarPokemon(p.getId());
+        }
+        //Eliminar Adestradores
+        entrenadores = adestradorServices.listarAdestradores();
+        for (Adestrador a : entrenadores) {
+            adestradorServices.eliminarAdestrador(a.getId());
+        }
+        //Eliminar Pokedexes
+        listPokedex = pokedexServices.listarPokedex();
+        for (Pokedexes p : listPokedex) {
+            pokedexServices.eliminarPokedex(p.getId());
         }
 
         /*System.out.println("-LISTAMOS LOS POKEMONS-");
